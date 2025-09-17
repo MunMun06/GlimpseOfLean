@@ -1,4 +1,8 @@
 import Mathlib.Logic.Basic 
+
+def Even (n : ℤ ) : Prop := ∃ k, n = 2 * k
+
+def Odd (n : ℤ ) : Prop := ∃ k, n = 2 * k + 1
 -- this is a comment
 
 /- 
@@ -23,7 +27,11 @@ import Mathlib.Logic.Basic
 --
 -- ⊢ goal
 --
+-- ∣ |  (divides)
+--
 -- ₀ 0 (subscript)
+--
+-- ↦ map 
 
 -- notation
 --
@@ -39,3 +47,13 @@ example (p q r : Prop) (h1 : p ∧ (q ∨ r)) (h2 : ¬ (p ∧ q)) : p ∧ r := b
   have hr := hqr hnq
   exact ⟨hp, hr⟩
 
+example (a b c :ℤ) (h : a * b ∣ c) : a ∣ c := by
+  rcases h with ⟨ k, hk ⟩ 
+  rw [hk]
+  rw [Int.mul_assoc] 
+  exact Int.dvd_mul_right a (b * k)
+
+example (x : ℤ ) (h : Even (x^2 + x + 1)) : Odd x := by
+    unfold Odd 
+    obtain ⟨ k, hk ⟩ := h
+    rw [Nat.add_mul_mod_self_right]  

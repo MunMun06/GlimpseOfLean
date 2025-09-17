@@ -38,7 +38,9 @@ prove one-by-one.
 -/
 
 example (a b : ℝ) (ha : 0 < a) (hb : 0 < b) : 0 < a^2 + b^2 := by
-  sorry
+  apply add_pos
+  exact sq_pos_of_pos ha
+  exact sq_pos_of_pos hb -- exercise
 
 /-
 You can also give a proof with forward reasoning, using the `have` tactic.
@@ -62,8 +64,9 @@ example (a : ℝ) (ha : 0 < a) : 0 < (a^2)^2 := by
 /- Now prove the same lemma as before using forwards reasoning. -/
 
 example (a b : ℝ) (ha : 0 < a) (hb : 0 < b) : 0 < a^2 + b^2 := by
-  sorry
-
+  have ha2 : 0 < a^2 := sq_pos_of_pos ha
+  have hb2 : 0 < b^2 := sq_pos_of_pos hb
+  exact add_pos ha2 hb2  -- exercise
 
 /- ## Proving implications
 
@@ -79,7 +82,11 @@ example (a b : ℝ) : a > 0 → b > 0 → a + b > 0 := by
 /- Now prove the following simple statement in propositional logic.
 Note that `p → q → r` means `p → (q → r)`. -/
 example (p q r : Prop) : (p → q) → (p → q → r) → p → r := by
-  sorry
+  intro h1 h2 h3
+  apply h2
+  exact h3
+  apply h1
+  exact h3 -- exercise
 
 /-
 Note that, when using `intro`, you need to give a name to the assumption.
@@ -115,7 +122,11 @@ Let's prove a variation
 -/
 
 example {a b : ℝ} (c : ℝ) : a + c ≤ b + c ↔ a ≤ b := by
-  sorry
+  rw [← sub_nonneg]
+  have h : (b + c) - (a + c) = b - a := by 
+    ring
+  rw [h]
+  exact sub_nonneg -- exercise
 
 /-
 The above lemma is already in the mathematical library, under the name `add_le_add_iff_right`:
@@ -150,7 +161,9 @@ example {a b : ℝ}  (ha : 0 ≤ a) : b ≤ a + b := by
 /- Let's do a variant using `add_le_add_iff_left a : a + b ≤ a + c ↔ b ≤ c` instead. -/
 
 example (a b : ℝ) (hb : 0 ≤ b) : a ≤ a + b := by
-  sorry
+  calc 
+    a = a + 0 := by ring
+    _ ≤ a + b := by exact (add_le_add_iff_left a).2 hb-- exercise
 
 /-
 Important note: in the previous exercises, we used lemmas like `add_le_add_iff_left` as
@@ -188,8 +201,12 @@ example (a b : ℝ) : (a-b)*(a+b) = 0 ↔ a^2 = b^2 := by
 /- You can try it yourself in this exercise. -/
 
 example (a b : ℝ) : a = b ↔ b - a = 0 := by
-  sorry
-
+  constructor
+  · intro h
+    exact sub_eq_zero_of_eq (id (Eq.symm h))
+  · intro h
+    rw [sub_eq_zero] at h
+    exact id (Eq.symm h) -- exercise   
 /-
 This is the end of this file where you learned how to handle implications and
 equivalences. You learned about tactics:
