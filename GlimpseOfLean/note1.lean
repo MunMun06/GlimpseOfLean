@@ -1,8 +1,5 @@
-import Mathlib.Logic.Basic 
+import Mathlib.Tactic
 
-def Even (n : ℤ ) : Prop := ∃ k, n = 2 * k
-
-def Odd (n : ℤ ) : Prop := ∃ k, n = 2 * k + 1
 -- this is a comment
 
 /- 
@@ -53,7 +50,12 @@ example (a b c :ℤ) (h : a * b ∣ c) : a ∣ c := by
   rw [Int.mul_assoc] 
   exact Int.dvd_mul_right a (b * k)
 
-example (x : ℤ ) (h : Even (x^2 + x + 1)) : Odd x := by
-    unfold Odd 
-    obtain ⟨ k, hk ⟩ := h
-    rw [Nat.add_mul_mod_self_right]  
+example (x : ℤ) : ( Even (x^2 + x + 1)) → ( Odd x) := by
+  contrapose!
+  intro hx
+  unfold Odd at hx
+  unfold Even 
+
+  
+  
+
