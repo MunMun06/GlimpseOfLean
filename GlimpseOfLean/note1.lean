@@ -1,3 +1,4 @@
+import Mathlib.Algebra.Group.Basic
 import Mathlib.Tactic
 
 -- this is a comment
@@ -21,6 +22,7 @@ import Mathlib.Tactic
 -- ℕ N 
 -- ℂ C 
 -- ℤ Z
+-- ℚ Q 
 --
 -- ⊢ goal
 --
@@ -29,7 +31,12 @@ import Mathlib.Tactic
 -- ₀ 0 (subscript)
 --
 -- ↦ map 
-
+--
+-- ≅ cong 
+-- ≠ =
+-- ≡ ==
+-- ≣ ===
+   
 -- notation
 --
 -- (f : ℝ → ℝ ) f is a function from reals to reals
@@ -51,11 +58,10 @@ example (a b c :ℤ) (h : a * b ∣ c) : a ∣ c := by
   exact Int.dvd_mul_right a (b * k)
 
 example (x : ℤ) : ( Even (x^2 + x + 1)) → ( Odd x) := by
-  contrapose!
+  contrapose
   intro hx
-  unfold Odd at hx
-  unfold Even 
-
-  
-  
-
+  rw [Int.not_odd_iff_even] at hx
+  refine Int.not_even_iff_odd.mpr ?_
+  unfold Odd 
+  unfold Even at hx
+    
