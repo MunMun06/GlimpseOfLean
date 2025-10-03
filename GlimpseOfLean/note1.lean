@@ -36,7 +36,9 @@ import Mathlib.Tactic
 -- ≠ =
 -- ≡ ==
 -- ≣ ===
-   
+--
+-- ∑ sum
+-- 
 -- notation
 --
 -- (f : ℝ → ℝ ) f is a function from reals to reals
@@ -65,3 +67,7 @@ example (x : ℤ) : ( Even (x^2 + x + 1)) → ( Odd x) := by
   unfold Odd 
   unfold Even at hx
     
+  (1 + x) ^ n = 1 + nci * x^i
+  (1 + x) ^ 1/2 = 1 + 
+  ∫ (1 + x) ^ n = x + nci * x^(i+1)/(i+1)
+  ∫ (1 - x ^ 2) ^ n = x - nci * x^(i+1) /(i+1)
